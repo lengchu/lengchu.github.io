@@ -70,7 +70,7 @@ local_search: true ## Use a javascript-based local search engine, true/false.
 comment:
   duoshuo: #chaooo ## duoshuo_shortname
   disqus: ## disqus_shortname
-  livere: ## 来必力(data-uid)
+  livere: MTAyMC8zODc1Mi8xNTI4MA== ## 来必力(data-uid)
   uyan: ## 友言(uid)
   cloudTie: ## 网易云跟帖(productKey)
   changyan: ## 畅言需在下方配置两个参数，此处不填。
