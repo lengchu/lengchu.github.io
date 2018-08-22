@@ -120,6 +120,8 @@ about:
 
 # Links widget. Empty links will hide widget.
 links:
+  - title: github
+    url: https://github.com/lengchu
   - title: gitee
     url: https://gitee.com/lenchu
   # - title: site-name2
