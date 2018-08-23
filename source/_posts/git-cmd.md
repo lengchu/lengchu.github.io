@@ -18,3 +18,6 @@ category: git
 
 #### 或者定义多个远程仓库
 `git remote add gitee git@github.com:lengchu/novel-java.git`
+
+## 删除分支
+`git branch -d [分支名]`
