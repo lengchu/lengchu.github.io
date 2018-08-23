@@ -1,5 +1,5 @@
 ---
-title: linux/linux-cmd
+title: linux命令笔记
 date: 2018-08-22 16:45:41
 tags: linux shell-cmd
 category: linux
