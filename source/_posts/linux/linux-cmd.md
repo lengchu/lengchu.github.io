@@ -18,5 +18,5 @@ category: linux
 /bin/zsh
 /usr/bin/zsh
 
-➜  ~ chsh -s /bin/bash 
+➜  ~ chsh -s /bin/bash [user]
 ```
