@@ -8,6 +8,8 @@ category: git
 ## 查看本地文件修改内容
 `git diff fileName`
 
+---
+
 ## 使用多个远程仓库
 
 #### 添加远程仓库
@@ -19,5 +21,18 @@ category: git
 #### 或者定义多个远程仓库
 `git remote add gitee git@github.com:lengchu/novel-java.git`
 
+---
+
 ## 删除分支
 `git branch -d [分支名]`
+
+---
+
+## git 标签
+
+### 推送本地标签到远程库
+`git push origin --tags`
+### 查看分支
+`git tag`
+### 查看分支详情
+`git show tagName`
