@@ -78,8 +78,11 @@ theme: BlueLake
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
+- type: git
   repo: git@gitee.com:lenchu/lenchu.git
+  branch: master
+- type: git
+  repo: git@github.com:lengchu/lengchu.github.io.git
   branch: master
 
 jsonContent:
