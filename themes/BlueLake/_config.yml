@@ -120,10 +120,12 @@ about:
 
 # Links widget. Empty links will hide widget.
 links:
-  - title: github
+  - title: Github
     url: https://github.com/lengchu
-  - title: gitee
+  - title: 码云
     url: https://gitee.com/lenchu
+  - title: 博客园
+    url: https://cnblogs.com/lenchu
   # - title: site-name2
   #   url: http://www.example2.com/
   # - title: site-name3
