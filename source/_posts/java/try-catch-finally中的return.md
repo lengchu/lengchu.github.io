@@ -83,3 +83,88 @@ Code:
 或者try发生异常被catch捕获, 那就会在11执行goto, 跳转至15
 
 所以最终执行的return语句是finally中的return
+
+## try-catch中有`return`, finally中无`return`
+
+```java
+int a = 1, b = 2;
+try {
+    return a;
+} catch(Exception e) {
+    return b;
+} finally {
+    a = 10;
+    b = 20;
+}
+```
+
+在finally中对a和b赋值, 在try和catch中返回a和b
+
+结果return的a和b是1和2, 赋值语句也确实执行了, 只是未能对返回结果造成影响
+
+具体什么情况呢? 还是看字节码
+
+```shell
+Code:
+  stack=1, locals=5, args_size=0
+    0: iconst_1
+    1: istore_0
+    2: iconst_2
+    3: istore_1
+    4: iload_0
+    5: istore        4
+    7: bipush        10
+    9: istore_0
+    10: bipush        20
+    12: istore_1
+    13: iload         4
+    15: ireturn
+    16: astore_2
+    17: iload_1
+    18: istore        4
+    20: bipush        10
+    22: istore_0
+    23: bipush        20
+    25: istore_1
+    26: iload         4
+    28: ireturn
+    29: astore_3
+    30: bipush        10
+    32: istore_0
+    33: bipush        20
+    35: istore_1
+    36: aload_3
+    37: athrow
+  Exception table:
+    from    to  target type
+      4     7    16   Class java/lang/Exception
+      4     7    29   any
+      16    20    29   any
+```
+
+与上次不同的是: 这次的字节码没有goto指令
+
+两个`ireturn`指令把把这段逻辑分成了三部分, 分别对应try, catch, 和未catch的异常情况
+
+finally中的语句都在`ireturn`或`athrow`之前被执行
+
+至于为什么finally中的语句未对返回值造成影响, 三段也都一样, 这里挑try中的指令来看一下
+
+```shell
+4: iload_0            // 把0位置的变量(a)值推入栈顶
+5: istore        4    // 把栈顶值存入4位置变量
+7: bipush        10   // 把单字节常量值10推入栈顶
+9: istore_0           // 把栈顶值赋给0位置变量(a)
+10: bipush        20
+12: istore_1          // 同上
+13: iload         4   // 把4位置变量值推入栈顶
+15: ireturn           // 返回栈顶值
+```
+
+总结一下就是: 当在try或catch中返回将在finally中要修改的基本类型变量时, 虚拟机会缓存将要返回的值, 再执行finally中的语句修改变量
+
+## 为什么要这样设计呢
+
+感觉这个有点类似上一篇`内部类访问局部变量为什么必须要用final修饰`中的原因
+
+> 为了消除代码的不确定性, 保持代码的简单易懂
