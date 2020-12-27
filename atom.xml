@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>lenchu&#39;s blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://lenchu.gitee.io/"/>
+  <updated>2020-12-27T09:47:40.371Z</updated>
+  <id>https://lenchu.gitee.io/</id>
+  
+  <author>
+    <name>lenchu</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JavaScript原型相关知识总结</title>
+    <link href="https://lenchu.gitee.io/2020/05/05/JavaScript/prototype/"/>
+    <id>https://lenchu.gitee.io/2020/05/05/JavaScript/prototype/</id>
+    <published>2020-05-05T11:50:16.000Z</published>
+    <updated>2020-12-27T09:47:40.371Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong><code>JavaScript</code>原型相关知识，很久以前学习过一次，后来慢慢的就忘了，这次又学习了一次，总结一下加深记忆，便于下次快速学习</strong></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul><li>除去四种基本的值类型(undefined, number, string, boolean)，一切皆是对象</li><li>所有对象都是通过函数创建的，同时函数也是一种对象</li><li>每个函数都有一个都有一个属性<code>prototype</code>，这个属性指向一个对象，该对象也都有一个属性<code>constructor</code>，指向函数本身</li><li>每个对象也都有一个属性<code>__proto__</code>，指向创建该对象的函数的<code>prototype</code></li><li><code>Object.prototype</code>的<code>__proto__</code>指向<code>null</code></li></ul><h2 id="一些代码帮助理解上述结论"><a href="#一些代码帮助理解上述结论" class="headerlink" title="一些代码帮助理解上述结论"></a>一些代码帮助理解上述结论</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">fn.prototype.constructor === fn <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = <span class="keyword">new</span> fn()</span><br><span class="line">obj.__proto__ === fn.prototype  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj2 = &#123;&#125;</span><br><span class="line">obj2.__proto__ === <span class="built_in">Object</span>.prototype  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">fn.__proto__ === <span class="built_in">Function</span>.prototype  <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Function</span>.__proto__ === <span class="built_in">Function</span>.prototype  <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.__proto__ === <span class="built_in">Object</span>.prototype  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.__proto__ === <span class="built_in">Function</span>.prototype  <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.__proto__ === <span class="literal">null</span>  <span class="comment">// true</span></span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote><p><a href="https://www.cnblogs.com/wangfupeng1988/p/3977924.html" target="_blank" rel="noopener">https://www.cnblogs.com/wangfupeng1988/p/3977924.html</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;&lt;code&gt;JavaScript&lt;/code&gt;原型相关知识，很久以前学习过一次，后来慢慢的就忘了，这次又学习了一次，总结一下加深记忆，便于下次快速学习&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerl
+      
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://lenchu.gitee.io/categories/JavaScript/"/>
+    
+    
+      <category term="JavaScript, 原型" scheme="https://lenchu.gitee.io/tags/JavaScript-%E5%8E%9F%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>线程协作初步</title>
+    <link href="https://lenchu.gitee.io/2019/05/09/java/%E7%BA%BF%E7%A8%8B%E5%8D%8F%E4%BD%9C%E5%88%9D%E6%AD%A5/"/>
+    <id>https://lenchu.gitee.io/2019/05/09/java/线程协作初步/</id>
+    <published>2019-05-08T20:31:35.000Z</published>
+    <updated>2020-12-27T09:47:40.375Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>用三个线程分别打印三次A, B, C, 要求保证其打印的顺序, 即打印出ABCABCABC</p><p>没错又是一道面试题, 后来学习了一些线程知识, 就突然想到这道题</p><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>用<code>ReentrantLock</code>绑定多个<code>Condition</code>来实现线程协作</p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ABC</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">static</span> Condition ca = lock.newCondition();</span><br><span class="line">    <span class="keyword">static</span> Condition cb = lock.newCondition();</span><br><span class="line">    <span class="keyword">static</span> Condition cc = lock.newCondition();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        A a = <span class="keyword">new</span> A();</span><br><span class="line">        B b = <span class="keyword">new</span> B();</span><br><span class="line">        C c = <span class="keyword">new</span> C();</span><br><span class="line">        </span><br><span class="line">        ExecutorService executor = Executors.newCachedThreadPool();</span><br><span class="line">        executor.execute(a);</span><br><span class="line">        executor.execute(b);</span><br><span class="line">        executor.execute(c);</span><br><span class="line">        </span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ca.signal();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        executor.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">                lock.lock();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    ca.await();</span><br><span class="line">                    System.out.print(<span class="string">"A"</span>);</span><br><span class="line">                    cb.signal();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">                lock.lock();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    cb.await();</span><br><span class="line">                    System.out.print(<span class="string">"B"</span>);</span><br><span class="line">                    cc.signal();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">                lock.lock();</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    cc.await();</span><br><span class="line">                    System.out.print(<span class="string">"C"</span>);</span><br><span class="line">                    ca.signal();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>试着运行了一下, 完美解决</p><h2 id="新问题"><a href="#新问题" class="headerlink" title="新问题"></a>新问题</h2><p>本以为完美解决了, 整个人沉浸在获得新知识的愉悦中, 情不自禁的多运行了几次</p><p>结果发现并不是每次都能完美运行, 偶尔会出现死锁…</p><p>随着学习的深入, 以后再来解决这个问题</p><p>如有大佬随手指点迷津, 愚不胜感激 :)</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;问题引入&quot;&gt;&lt;a href=&quot;#问题引入&quot; class=&quot;headerlink&quot; title=&quot;问题引入&quot;&gt;&lt;/a&gt;问题引入&lt;/h2&gt;&lt;p&gt;用三个线程分别打印三次A, B, C, 要求保证其打印的顺序, 即打印出ABCABCABC&lt;/p&gt;
+&lt;p&gt;没错又是一道面试题
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="https://lenchu.gitee.io/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="https://lenchu.gitee.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>try-catch-finally中的return</title>
+    <link href="https://lenchu.gitee.io/2019/04/29/java/try-catch-finally%E4%B8%AD%E7%9A%84return/"/>
+    <id>https://lenchu.gitee.io/2019/04/29/java/try-catch-finally中的return/</id>
+    <published>2019-04-29T14:00:48.000Z</published>
+    <updated>2020-12-27T09:47:40.374Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try-catch-finally"></a>try-catch-finally</h2><p>try: 正常执行的语句</p><p>catch: try中抛出相应的异常时执行的语句</p><p>finally: 不管执行的是try还是catch, 最终都会执行的语句</p><p>先回顾以上基础</p><h2 id="AutoClose"><a href="#AutoClose" class="headerlink" title="AutoClose"></a>AutoClose</h2><p>从jdk1.7开始, 可以在try后面加一对圆括号, 把要关闭的资源放到圆括号里声明, 可以自动关闭</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">File f = <span class="keyword">new</span> File(<span class="string">"test"</span>);</span><br><span class="line"><span class="keyword">try</span> (</span><br><span class="line">    InputStream is = <span class="keyword">new</span> FileInputStream(f);</span><br><span class="line">    InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(is);</span><br><span class="line">    BufferedReader br = <span class="keyword">new</span> BufferedReader(isr);</span><br><span class="line">) &#123;</span><br><span class="line">    br.readLine();</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><strong>自动关闭的资源需要实现AutoCloseable接口</strong></p><p>实际上<code>AutoCloseable</code>接口是jdk1.7新增的, 而<code>Closeable</code>接口继承自<code>AutoCloseable</code>, 所以只要实现<code>Closeable</code>接口即可</p><h2 id="带有return语句的try-catch-finally"><a href="#带有return语句的try-catch-finally" class="headerlink" title="带有return语句的try-catch-finally"></a>带有<code>return</code>语句的try-catch-finally</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">tryCatchFinally</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>, b = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> ++a + b;</span><br><span class="line">    &#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">      <span class="keyword">return</span> a;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>使用<code>javap</code>反编译字节码, 部分如下</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Code:</span><br><span class="line">  stack=1, locals=3, args_size=0</span><br><span class="line">      0: iconst_1</span><br><span class="line">      1: istore_0</span><br><span class="line">      2: iconst_2</span><br><span class="line">      3: istore_1</span><br><span class="line">      4: iinc          0, 1</span><br><span class="line">      7: goto          15</span><br><span class="line">    10: astore_2</span><br><span class="line">    11: goto          15</span><br><span class="line">    14: pop</span><br><span class="line">    15: iload_1</span><br><span class="line">    16: ireturn</span><br><span class="line">  Exception table:</span><br><span class="line">      from    to  target type</span><br><span class="line">          4    10    10   Class java/lang/Exception</span><br><span class="line">          4    14    14   any</span><br></pre></td></tr></table></figure><p>大致意思: </p><p>如果代码4到10(try中的语句)发生异常(catch中捕获的异常)就跳转到10继续运行</p><p>如果代码4到14(try和catch)发生异常(任何异常)就跳转到14继续运行</p><p>如果不发生异常, 会在7执行goto, 跳转至15</p><p>或者try发生异常被catch捕获, 那就会在11执行goto, 跳转至15</p><p>所以最终执行的return语句是finally中的return</p><h2 id="try-catch中有return-finally中无return"><a href="#try-catch中有return-finally中无return" class="headerlink" title="try-catch中有return, finally中无return"></a>try-catch中有<code>return</code>, finally中无<code>return</code></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>, b = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">    <span class="keyword">return</span> b;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    a = <span class="number">10</span>;</span><br><span class="line">    b = <span class="number">20</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在finally中对a和b赋值, 在try和catch中返回a和b</p><p>结果return的a和b是1和2, 赋值语句也确实执行了, 只是未能对返回结果造成影响</p><p>具体什么情况呢? 还是看字节码</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">Code:</span><br><span class="line">  stack=1, locals=5, args_size=0</span><br><span class="line">    0: iconst_1</span><br><span class="line">    1: istore_0</span><br><span class="line">    2: iconst_2</span><br><span class="line">    3: istore_1</span><br><span class="line">    4: iload_0</span><br><span class="line">    5: istore        4</span><br><span class="line">    7: bipush        10</span><br><span class="line">    9: istore_0</span><br><span class="line">    10: bipush        20</span><br><span class="line">    12: istore_1</span><br><span class="line">    13: iload         4</span><br><span class="line">    15: ireturn</span><br><span class="line">    16: astore_2</span><br><span class="line">    17: iload_1</span><br><span class="line">    18: istore        4</span><br><span class="line">    20: bipush        10</span><br><span class="line">    22: istore_0</span><br><span class="line">    23: bipush        20</span><br><span class="line">    25: istore_1</span><br><span class="line">    26: iload         4</span><br><span class="line">    28: ireturn</span><br><span class="line">    29: astore_3</span><br><span class="line">    30: bipush        10</span><br><span class="line">    32: istore_0</span><br><span class="line">    33: bipush        20</span><br><span class="line">    35: istore_1</span><br><span class="line">    36: aload_3</span><br><span class="line">    37: athrow</span><br><span class="line">  Exception table:</span><br><span class="line">    from    to  target type</span><br><span class="line">      4     7    16   Class java/lang/Exception</span><br><span class="line">      4     7    29   any</span><br><span class="line">      16    20    29   any</span><br></pre></td></tr></table></figure><p>与上次不同的是: 这次的字节码没有goto指令</p><p>两个<code>ireturn</code>指令把把这段逻辑分成了三部分, 分别对应try, catch, 和未catch的异常情况</p><p>finally中的语句都在<code>ireturn</code>或<code>athrow</code>之前被执行</p><p>至于为什么finally中的语句未对返回值造成影响, 三段也都一样, 这里挑try中的指令来看一下</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">4: iload_0            // 把0位置的变量(a)值推入栈顶</span><br><span class="line">5: istore        4    // 把栈顶值存入4位置变量</span><br><span class="line">7: bipush        10   // 把单字节常量值10推入栈顶</span><br><span class="line">9: istore_0           // 把栈顶值赋给0位置变量(a)</span><br><span class="line">10: bipush        20</span><br><span class="line">12: istore_1          // 同上</span><br><span class="line">13: iload         4   // 把4位置变量值推入栈顶</span><br><span class="line">15: ireturn           // 返回栈顶值</span><br></pre></td></tr></table></figure><p>总结一下就是: 当在try或catch中返回将在finally中要修改的基本类型变量时, 虚拟机会缓存将要返回的值, 再执行finally中的语句修改变量</p><h2 id="为什么要这样设计呢"><a href="#为什么要这样设计呢" class="headerlink" title="为什么要这样设计呢"></a>为什么要这样设计呢</h2><p>感觉这个有点类似上一篇<code>内部类访问局部变量为什么必须要用final修饰</code>中的原因</p><blockquote><p>为了消除代码的不确定性, 保持代码的简单易懂</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;try-catch-finally&quot;&gt;&lt;a href=&quot;#try-catch-finally&quot; class=&quot;headerlink&quot; title=&quot;try-catch-finally&quot;&gt;&lt;/a&gt;try-catch-finally&lt;/h2&gt;&lt;p&gt;try: 正常执行的
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="https://lenchu.gitee.io/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="https://lenchu.gitee.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>内部类访问局部变量为什么必须要用final修饰</title>
+    <link href="https://lenchu.gitee.io/2019/04/21/java/%E5%86%85%E9%83%A8%E7%B1%BB%E8%AE%BF%E9%97%AE%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%85%E9%A1%BB%E8%A6%81%E7%94%A8final%E4%BF%AE%E9%A5%B0/"/>
+    <id>https://lenchu.gitee.io/2019/04/21/java/内部类访问局部变量为什么必须要用final修饰/</id>
+    <published>2019-04-21T05:14:31.000Z</published>
+    <updated>2020-12-27T09:47:40.374Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>内部类访问局部变量为什么必须要用final修饰</strong></p><p>看了大概五六篇博客, 讲的内容都差不多, 讲的内容也都很对, 但我觉得有些跑题了</p><p>略叙一下</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="string">"hello"</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Inner</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">System.out.println(s);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// s = "world";</span></span><br><span class="line"></span><br><span class="line">Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Inner());</span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure><ul><li>jdk1.8及后续版本可以不显式声明final</li></ul><p>所以以上代码在Java8是可以编译运行的, 但是如果在Inner类声明后再对s赋值, 就会报此错误<br><code>Local variable s defined in an enclosing scope must be final or effectively final</code></p><p>所以, 尽管Java8以后不用显式声明为final, 但是内部类引用的变量实际上还是final的</p><ul><li>内部类中存在要用到的外部变量的引用, 存于内部类成员变量中, 在内部类构造时传入</li></ul><p>这点可以通过反射或者直接查看字节码证实</p><p>内部类中有了所需变量的引用, 那么在方法执行完之后, 依然可以访问到此变量</p><p>可以说是摆脱了方法内部变量作用域对内部类变量使用的限制<br>(啰嗦解释一句, 如果内部没有保存引用, 那么方法执行完毕, 方法内所有本地变量随方法所在栈帧销毁, 内部类将无法获取这一引用)</p><ul><li>为了保证内部的引用与外部的引用指向一致, 所以必须是final</li></ul><p>这一点最接近题意</p><p>但是他们大多只解释了为了使内部与外部保持一致</p><ul><li>我的理解</li></ul><p>使内部与外部保持一致不是必要的</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">String name = <span class="string">"lengchu"</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;</span><br><span class="line">String name;</span><br><span class="line"></span><br><span class="line">Inner(String name) &#123;</span><br><span class="line"><span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">System.out.println(<span class="string">"hello "</span> + name);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">name = <span class="string">"lenchu"</span>;</span><br><span class="line"><span class="keyword">new</span> Inner(name).sayHi();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>开头那段代码编译成字节码后和这段其实差不多</p><p>内部的name字段和构造器是编译器为我们加上的, 实例化的时候构造器里的值也是编译器给我们传过去的</p><p>如果把编译器为我们做的这些我们自己手动实现了, 再来看这个所谓的<code>使内部与外部保持一致</code>的需求是多么的无理, 完全就没必要嘛</p><ul><li>所以到底为什么呢</li></ul><p>个人理解</p><p>为了消除代码的不确定性, 保持代码的简单易懂</p><p>怎么说呢? 我们把上面实例化和调用那段代码稍作修改</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Inner i = <span class="keyword">new</span> Inner(name);</span><br><span class="line">name = <span class="string">"lenchu"</span>;</span><br><span class="line">i.sayHi();</span><br></pre></td></tr></table></figure><p>因为构造器和内部字段是我们自己实现的, 所以我们可以轻松判断此时修改name对i的值是没有影响的</p><p>但是如果我们不自己实现这些呢</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">String name = <span class="string">"lengchu"</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">System.out.println(<span class="string">"hello "</span> + name);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Inner i = <span class="keyword">new</span> Inner();</span><br><span class="line"><span class="comment">// name = "lenchu";</span></span><br><span class="line">i.sayHi();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>假如可以对name重新赋值</p><p>那么name运行的时候name到底是谁呢</p><p>从上面的分析我们可以知道name的值应该是内部类实例化时的值</p><p>但是从执行顺序上看难免多少会有些歧义</p><p>干脆就不让他改了吧–!(个人见解不代表官方意见)</p><hr><p><strong>强行对比一波js的上下文环境</strong></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> ret = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> i++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> i = <span class="number">10</span></span><br><span class="line"><span class="keyword">let</span> inc = fn()</span><br><span class="line">inc() <span class="comment">// 0</span></span><br></pre></td></tr></table></figure><p>Java的运行是基于方法栈, 而js则是基于执行上下文栈</p><p>二者有很多相似之处, 略叙一下</p><p>Java的每个方法调用都会往方法栈里推入一帧,<br>这一栈帧里存放着方法内部声明的局部变量, 方法参数等,<br>方法执行完毕时, 栈帧出栈, 栈帧里的内容随之销毁</p><p>js的上下文栈也与之类似</p><ul><li>js的栈帧未必会随着上下文执行完毕而销毁</li></ul><p>如上例,<br>fn执行完毕, 他的上下文就不会销毁,<br>如果销毁, 那么ret执行的时候变量i就找不到其所指了</p><p>栈帧销毁, 变量找不到引用, 像极了Java方法栈帧销毁, 内部类变量找不到引用</p><ul><li>栈帧未必销毁, 那怎么知道当前上下文所用的帧呢</li></ul><p>标记, 标记当前上下文所用的栈帧为active</p><p>同时还会标记每一帧的上一帧,<br>这样就以另一种方式解决了类似的问题</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;内部类访问局部变量为什么必须要用final修饰&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;看了大概五六篇博客, 讲的内容都差不多, 讲的内容也都很对, 但我觉得有些跑题了&lt;/p&gt;
+&lt;p&gt;略叙一下&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="https://lenchu.gitee.io/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="https://lenchu.gitee.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>String为什么是不可变的</title>
+    <link href="https://lenchu.gitee.io/2019/04/19/java/String%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%9A%84/"/>
+    <id>https://lenchu.gitee.io/2019/04/19/java/String为什么是不可变的/</id>
+    <published>2019-04-19T08:10:17.000Z</published>
+    <updated>2020-12-27T09:47:40.374Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>前几天一个面试被问到<code>String为什么是不可变的?</code>, 自我感觉当时回答的不太理想, 事后总结一下</strong></p><h2 id="不可变的是什么"><a href="#不可变的是什么" class="headerlink" title="不可变的是什么"></a>不可变的是什么</h2><p>我们谈论的String不可变, 指的是字符串的值不可变</p><p>例: <code>String s = &quot;hello&quot;</code> s的值就是<code>hello</code>, 不可变也指的是这个值不可变</p><p>类比到int基本类型就相当于<code>int i = 1</code>, 假如这里i的值不可变, 那指的就是1不可变</p><h2 id="为什么不可变"><a href="#为什么不可变" class="headerlink" title="为什么不可变"></a>为什么不可变</h2><p>众所周知Java的String类型并非基本类型, 即String是一个类</p><p>既然String是类, 那我们就深入其内部实现来一探究竟</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line">    <span class="comment">/** The value is used for character storage. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>从源码来看, String类内部是用char数组来保存字符串的值, 并且char[]是final的, 这里的final意味着什么呢?</p><ul><li>value必须在构造时为其赋值</li><li>赋值后value的引用不能再变</li></ul><p>当我们实例化一个String对象并得到其引用后, 构造已经结束了, 即value的引用已经不能再变了</p><p>那么value的值呢, 理论上是可以改变的, 只要我们拿到value的引用, 可以直接通过下标改变他的值</p><p>实际上呢?</p><p>value的值我们从String外部获取不到</p><ul><li>首先, 构造的时候我们传入String的值, String内部赋值给value字段的时候都经过copy, 也就是说我们传给String的值经过构造后已经有了一份我们获取不到的备份留在了String内部, 我们改变原来的值对String内部的value已经毫无影响</li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>[] c = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">32</span>];</span><br><span class="line">c[<span class="number">0</span>] = <span class="string">'h'</span>;</span><br><span class="line">String s = <span class="keyword">new</span> String(c);</span><br><span class="line">System.out.println(s);</span><br><span class="line">c[<span class="number">1</span>] = <span class="string">'e'</span>;</span><br><span class="line">System.out.println(s);</span><br></pre></td></tr></table></figure><p>毫无疑问, 两次的输出都是<code>h</code></p><ul><li><p>其次, String类没有提供对外的接口来改变value的值, 通过查看String类源码可以看到, String类所有的公开方法中, 没有一个可以修改value的值</p></li><li><p>最后</p></li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="string">"hello"</span>;</span><br><span class="line">s = <span class="string">"world"</span>;</span><br></pre></td></tr></table></figure><p>这种情况, s的值貌似改变了, 从<code>hello</code>变成了<code>world</code></p><p>其实这里s所改变的是他所引用的对象, 并不是String对象的值改变了</p><p>怎么说呢? 我们这样<code>String s = &quot;hello&quot;</code>写代码只是一种简写, 或者称为’语法糖’</p><p>实际执行的时候是什么样子的呢? 非要用Java代码表示的话大致意思是这样<code>String s = String.valueOf(&quot;hello&quot;)</code></p><p>嗯? 这样表述貌似也有些问题… 改天再单独总结…</p><p>这里意思就是<code>valueOf(&quot;hello&quot;)</code>会返回一个内部的value字段存的是”hello”的String对象</p><p>从上面几点分析我们知道, 拿到String对象的时候, 内部的value字段已经无法修改了</p><p>那么这里的<code>s = &quot;world&quot;</code>, 这个赋值又是什么意思呢?</p><p>根据上面对<code>valueOf</code>的分析, 这里的<code>s = &quot;world&quot;</code>赋值之后s是一个内部字段存的是”world”的String对象</p><p>又因为value的值在String构造的时候就已经指定且不可再变, 所以这个s和之前的s引用的必然不是同一个对象</p><p>综上, 对s赋值是改变了s所引用的对象, 而改变前后两个String对象既不是同一个对象, 内部的value值又不一样</p><p>所以, 直接赋值也不能改变字符串的值, 改变的只是引用</p><p>所以, String不可变. </p><h2 id="真的不可变吗"><a href="#真的不可变吗" class="headerlink" title="真的不可变吗?"></a>真的不可变吗?</h2><p>按照上述的分析, 貌似真的不可变</p><p>因为一般情况下我们获取不到String内部的value数组的引用</p><p>那么二般情况呢</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>[] origin = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">32</span>];</span><br><span class="line">origin[<span class="number">0</span>] = <span class="string">'h'</span>;</span><br><span class="line">String s = <span class="keyword">new</span> String(origin);</span><br><span class="line">System.out.println(s);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">Field f = s.getClass().getDeclaredField(<span class="string">"value"</span>);</span><br><span class="line">f.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">Object o = f.get(s);</span><br><span class="line"><span class="keyword">if</span>(o <span class="keyword">instanceof</span> <span class="keyword">char</span>[]) &#123;</span><br><span class="line"><span class="keyword">char</span>[] c = (<span class="keyword">char</span>[]) o;</span><br><span class="line">System.out.println(c.length);</span><br><span class="line">c[<span class="number">1</span>] = <span class="string">'e'</span>;</span><br><span class="line">c[<span class="number">2</span>] = <span class="string">'l'</span>;</span><br><span class="line">System.out.println(s);</span><br><span class="line">&#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>利用反射我们可以直接获取类内部的属性, 挣脱了访问权限的束缚</p><p>获取了String内部的value数组, 改变了String的值</p><hr><p>假如以后遇到别的改变String值的方法, 再来记录</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;前几天一个面试被问到&lt;code&gt;String为什么是不可变的?&lt;/code&gt;, 自我感觉当时回答的不太理想, 事后总结一下&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;不可变的是什么&quot;&gt;&lt;a href=&quot;#不可变的是什么&quot; class=&quot;headerlink&quot;
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="https://lenchu.gitee.io/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="https://lenchu.gitee.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>c++数组相关</title>
+    <link href="https://lenchu.gitee.io/2018/11/09/cpp/cpp-array/"/>
+    <id>https://lenchu.gitee.io/2018/11/09/cpp/cpp-array/</id>
+    <published>2018-11-09T02:44:31.000Z</published>
+    <updated>2020-12-27T09:47:40.372Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>问题从获取数组的长度开始</strong></p><h2 id="数组长度的获取"><a href="#数组长度的获取" class="headerlink" title="数组长度的获取"></a>数组长度的获取</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(arr) / <span class="keyword">sizeof</span>(arr[<span class="number">0</span>]) &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 5</span></span><br></pre></td></tr></table></figure><ul><li>数组元素的类型是确定的，所以每个元素的大小都是一样的</li><li>所以数组长度 = 数组总大小 / 单个元素大小</li></ul><h2 id="于是写个函数获取数组长度"><a href="#于是写个函数获取数组长度" class="headerlink" title="于是写个函数获取数组长度"></a>于是写个函数获取数组长度</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">arrSize</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">sizeof</span>(arr) / <span class="keyword">sizeof</span>(arr[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> arr[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; arrSize(arr) &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 2 ???</span></span><br></pre></td></tr></table></figure><ul><li>数组作为参数在函数间传递时，传递的只是第一个元素的地址<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">arrSize</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *arr &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">sizeof</span>(arr) / <span class="keyword">sizeof</span>(arr[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> arr[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">arrSize(arr) <span class="comment">// 1</span></span><br></pre></td></tr></table></figure></li></ul><h2 id="然后想起了引用"><a href="#然后想起了引用" class="headerlink" title="然后想起了引用"></a>然后想起了引用</h2><ul><li>然后发现不能声明素组的引用</li><li>翻阅资料得到解释<blockquote><p>数组名arr只代表数组首元素的地址，本身不是一个占有存储空间的变量，所以不能建立数组的引用</p></blockquote></li></ul><h2 id="这时想起了刚刚百度时看到的template"><a href="#这时想起了刚刚百度时看到的template" class="headerlink" title="这时想起了刚刚百度时看到的template"></a>这时想起了刚刚百度时看到的template</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">arrSize</span><span class="params">(T&amp; arr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">sizeof</span>(arr) / <span class="keyword">sizeof</span>(arr[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> arr[] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; arrSize(arr) &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 5 ???</span></span><br></pre></td></tr></table></figure><ul><li><code>int arrSize(T&amp; arr)</code> 使用函数模板可以获取数组的引用?</li><li>貌似只有这种解释 - - !</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;问题从获取数组的长度开始&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;数组长度的获取&quot;&gt;&lt;a href=&quot;#数组长度的获取&quot; class=&quot;headerlink&quot; title=&quot;数组长度的获取&quot;&gt;&lt;/a&gt;数组长度的获取&lt;/h2&gt;&lt;figure class=&quot;h
+      
+    
+    </summary>
+    
+      <category term="c++" scheme="https://lenchu.gitee.io/categories/c/"/>
+    
+    
+      <category term="c++" scheme="https://lenchu.gitee.io/tags/c/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux 文件监控设置</title>
+    <link href="https://lenchu.gitee.io/2018/10/10/linux/fs-inotify/"/>
+    <id>https://lenchu.gitee.io/2018/10/10/linux/fs-inotify/</id>
+    <published>2018-10-10T13:36:02.000Z</published>
+    <updated>2020-12-27T09:47:40.375Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="检查现有文件监控数量"><a href="#检查现有文件监控数量" class="headerlink" title="检查现有文件监控数量"></a>检查现有文件监控数量</h2><p><code>tac /proc/sys/fs/inotify/max_user_watches</code></p><h2 id="修改文件监控数目"><a href="#修改文件监控数目" class="headerlink" title="修改文件监控数目"></a>修改文件监控数目</h2><ul><li>打开配置文件<br><code>sudo vi /etc/sysctl.conf</code></li><li>添加配置<br><code>fs.inotify.max_user_watches=[数量]</code></li></ul><h2 id="使配置生效"><a href="#使配置生效" class="headerlink" title="使配置生效"></a>使配置生效</h2><p><code>sudo sysctl -p</code></p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote><p><a href="https://blog.csdn.net/davidhopper/article/details/79620425" target="_blank" rel="noopener">https://blog.csdn.net/davidhopper/article/details/79620425</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;检查现有文件监控数量&quot;&gt;&lt;a href=&quot;#检查现有文件监控数量&quot; class=&quot;headerlink&quot; title=&quot;检查现有文件监控数量&quot;&gt;&lt;/a&gt;检查现有文件监控数量&lt;/h2&gt;&lt;p&gt;&lt;code&gt;tac /proc/sys/fs/inotify/max_use
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://lenchu.gitee.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://lenchu.gitee.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ssh免密登录</title>
+    <link href="https://lenchu.gitee.io/2018/08/23/linux/ssh/"/>
+    <id>https://lenchu.gitee.io/2018/08/23/linux/ssh/</id>
+    <published>2018-08-23T01:06:03.000Z</published>
+    <updated>2020-12-27T09:47:40.376Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="先在本机生成密钥"><a href="#先在本机生成密钥" class="headerlink" title="先在本机生成密钥"></a>先在本机生成密钥</h2><p><code>ssh-keygen -t rsa</code></p><h2 id="然后将公钥复制到目标主机的相应用户"><a href="#然后将公钥复制到目标主机的相应用户" class="headerlink" title="然后将公钥复制到目标主机的相应用户"></a>然后将公钥复制到目标主机的相应用户</h2><p><code>ssh-copy-id -i ~/.ssh/id_rsa.pub [用户]@[目标主机地址]</code></p><h2 id="最后就可以免密登录了"><a href="#最后就可以免密登录了" class="headerlink" title="最后就可以免密登录了"></a>最后就可以免密登录了</h2><p><code>ssh [用户]@[地址]]</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;先在本机生成密钥&quot;&gt;&lt;a href=&quot;#先在本机生成密钥&quot; class=&quot;headerlink&quot; title=&quot;先在本机生成密钥&quot;&gt;&lt;/a&gt;先在本机生成密钥&lt;/h2&gt;&lt;p&gt;&lt;code&gt;ssh-keygen -t rsa&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;然后将
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://lenchu.gitee.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://lenchu.gitee.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux命令笔记</title>
+    <link href="https://lenchu.gitee.io/2018/08/22/linux/linux-cmd/"/>
+    <id>https://lenchu.gitee.io/2018/08/22/linux/linux-cmd/</id>
+    <published>2018-08-22T08:45:41.000Z</published>
+    <updated>2020-12-27T09:47:40.375Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一些用过的命令笔记"><a href="#一些用过的命令笔记" class="headerlink" title="一些用过的命令笔记"></a>一些用过的命令笔记</h1><hr><h2 id="修改默认shell"><a href="#修改默认shell" class="headerlink" title="修改默认shell"></a>修改默认shell</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ cat /etc/shells </span><br><span class="line"># /etc/shells: valid login shells</span><br><span class="line">/bin/sh</span><br><span class="line">/bin/bash</span><br><span class="line">/bin/rbash</span><br><span class="line">/bin/dash</span><br><span class="line">/bin/zsh</span><br><span class="line">/usr/bin/zsh</span><br><span class="line"></span><br><span class="line">➜  ~ chsh -s /bin/bash [user]</span><br></pre></td></tr></table></figure><hr><h2 id="scp-远程拷贝文件"><a href="#scp-远程拷贝文件" class="headerlink" title="scp 远程拷贝文件"></a>scp 远程拷贝文件</h2><p>从远程拷贝到本地:<br><code>scp lenchu@lenchu.cn:/home/lenchu/test.txt /home/lenchu/</code><br>从本地拷贝到远程:<br><code>scp /home/lenchu/test.txt lenchu@lenchu.cn:/home/lenchu/</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一些用过的命令笔记&quot;&gt;&lt;a href=&quot;#一些用过的命令笔记&quot; class=&quot;headerlink&quot; title=&quot;一些用过的命令笔记&quot;&gt;&lt;/a&gt;一些用过的命令笔记&lt;/h1&gt;&lt;hr&gt;
+&lt;h2 id=&quot;修改默认shell&quot;&gt;&lt;a href=&quot;#修改默认shell&quot; 
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://lenchu.gitee.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://lenchu.gitee.io/tags/linux/"/>
+    
+      <category term="shell-cmd" scheme="https://lenchu.gitee.io/tags/shell-cmd/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>用户管理命令笔记</title>
+    <link href="https://lenchu.gitee.io/2018/08/22/linux/user-operation/"/>
+    <id>https://lenchu.gitee.io/2018/08/22/linux/user-operation/</id>
+    <published>2018-08-22T08:32:32.000Z</published>
+    <updated>2020-12-27T09:47:40.376Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="增加用户"><a href="#增加用户" class="headerlink" title="增加用户:"></a>增加用户:</h3><p><code>useradd -d /home/username -m username</code></p><h3 id="为用户添加密码"><a href="#为用户添加密码" class="headerlink" title="为用户添加密码:"></a>为用户添加密码:</h3><p><code>passwd username</code></p><h3 id="为用户添加组"><a href="#为用户添加组" class="headerlink" title="为用户添加组:"></a>为用户添加组:</h3><p><code>usermod -G groupname username</code></p><h3 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户:"></a>删除用户:</h3><p><code>userdel -rf username</code><br><em>-rf 是同时删除用户的家</em></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;增加用户&quot;&gt;&lt;a href=&quot;#增加用户&quot; class=&quot;headerlink&quot; title=&quot;增加用户:&quot;&gt;&lt;/a&gt;增加用户:&lt;/h3&gt;&lt;p&gt;&lt;code&gt;useradd -d /home/username -m username&lt;/code&gt;&lt;/p&gt;
+&lt;h3 i
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="https://lenchu.gitee.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://lenchu.gitee.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>字符串操作</title>
+    <link href="https://lenchu.gitee.io/2018/08/20/shell/string/"/>
+    <id>https://lenchu.gitee.io/2018/08/20/shell/string/</id>
+    <published>2018-08-20T07:10:21.000Z</published>
+    <updated>2020-12-27T09:47:40.377Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="获取字符串长度"><a href="#获取字符串长度" class="headerlink" title="获取字符串长度"></a>获取字符串长度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ str=hello   </span><br><span class="line">➜  ~ echo $&#123;#str&#125;</span><br><span class="line">5</span><br><span class="line">➜  ~ expr length $str</span><br><span class="line">5</span><br></pre></td></tr></table></figure><h3 id="字符串所在位置"><a href="#字符串所在位置" class="headerlink" title="字符串所在位置"></a>字符串所在位置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ echo $str</span><br><span class="line">hello</span><br><span class="line">➜  ~ expr index $str h</span><br><span class="line">1</span><br><span class="line">➜  ~ expr index $str l</span><br><span class="line">3</span><br><span class="line">➜  ~ expr index $str o</span><br><span class="line">5</span><br><span class="line">➜  ~ expr index $str w</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">➜  ~ expr index $str he</span><br><span class="line">1</span><br><span class="line">➜  ~ expr index $str el</span><br><span class="line">2</span><br><span class="line">➜  ~ expr index $str ll</span><br><span class="line">3</span><br><span class="line">➜  ~ expr index $str lo</span><br><span class="line">3</span><br></pre></td></tr></table></figure><h3 id="expr"><a href="#expr" class="headerlink" title="expr"></a>expr</h3><p>好多字符串的操作都可以使用expr完成<br>详情 <code>man expr</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;获取字符串长度&quot;&gt;&lt;a href=&quot;#获取字符串长度&quot; class=&quot;headerlink&quot; title=&quot;获取字符串长度&quot;&gt;&lt;/a&gt;获取字符串长度&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=
+      
+    
+    </summary>
+    
+      <category term="shell笔记" scheme="https://lenchu.gitee.io/categories/shell%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="shell" scheme="https://lenchu.gitee.io/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>git命令笔记</title>
+    <link href="https://lenchu.gitee.io/2018/08/12/git-cmd/"/>
+    <id>https://lenchu.gitee.io/2018/08/12/git-cmd/</id>
+    <published>2018-08-12T04:05:04.000Z</published>
+    <updated>2020-12-27T09:47:40.372Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="查看本地文件修改内容"><a href="#查看本地文件修改内容" class="headerlink" title="查看本地文件修改内容"></a>查看本地文件修改内容</h2><p><code>git diff fileName</code></p><hr><h2 id="使用多个远程仓库"><a href="#使用多个远程仓库" class="headerlink" title="使用多个远程仓库"></a>使用多个远程仓库</h2><h4 id="添加远程仓库"><a href="#添加远程仓库" class="headerlink" title="添加远程仓库"></a>添加远程仓库</h4><p><code>git remote add origin git@github.com:lengchu/novel-java.git</code></p><h4 id="为远程仓库添加地址"><a href="#为远程仓库添加地址" class="headerlink" title="为远程仓库添加地址"></a>为远程仓库添加地址</h4><p><code>git remote set-url --add origin git@gitee.com:lenchu/novel-java.git</code></p><h4 id="或者定义多个远程仓库"><a href="#或者定义多个远程仓库" class="headerlink" title="或者定义多个远程仓库"></a>或者定义多个远程仓库</h4><p><code>git remote add gitee git@github.com:lengchu/novel-java.git</code></p><hr><h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><p><code>git branch -d [分支名]</code></p><hr><h2 id="git-标签"><a href="#git-标签" class="headerlink" title="git 标签"></a>git 标签</h2><h3 id="推送本地标签到远程库"><a href="#推送本地标签到远程库" class="headerlink" title="推送本地标签到远程库"></a>推送本地标签到远程库</h3><p><code>git push origin --tags</code></p><h3 id="查看分支"><a href="#查看分支" class="headerlink" title="查看分支"></a>查看分支</h3><p><code>git tag</code></p><h3 id="查看分支详情"><a href="#查看分支详情" class="headerlink" title="查看分支详情"></a>查看分支详情</h3><p><code>git show tagName</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;查看本地文件修改内容&quot;&gt;&lt;a href=&quot;#查看本地文件修改内容&quot; class=&quot;headerlink&quot; title=&quot;查看本地文件修改内容&quot;&gt;&lt;/a&gt;查看本地文件修改内容&lt;/h2&gt;&lt;p&gt;&lt;code&gt;git diff fileName&lt;/code&gt;&lt;/p&gt;
+&lt;hr
+      
+    
+    </summary>
+    
+      <category term="git" scheme="https://lenchu.gitee.io/categories/git/"/>
+    
+    
+      <category term="git" scheme="https://lenchu.gitee.io/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://lenchu.gitee.io/2018/08/08/hello-world/"/>
+    <id>https://lenchu.gitee.io/2018/08/08/hello-world/</id>
+    <published>2018-08-07T16:00:00.000Z</published>
+    <updated>2020-12-27T09:47:40.372Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
