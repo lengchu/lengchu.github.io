@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线小工具集合</title>
+  <style>
+    .tool-item {
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+<div style="display: flex; flex-direction: column; align-items: center;" id="app">
+<div style="display: flex; margin-top: 20px; width: 800px; flex-wrap: wrap;">
+  <div v-for="tool in tools" class="tool-item"><h3><a :href="tool.href">{{tool.name}}</a></h3></div>
+</div>
+</div>
+</body>
+<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+<script>
+const vm = new Vue({
+  el: '#app',
+  data() {
+    return {
+      allTools: [
+        {
+          name: '简约文字头像生成',
+          href: './touxiang.html'
+        },
+        {
+          name: 'QQ头像KF举牌',
+          href: './qq-touxiang-kf.html'
+        },
+        {
+          name: '价格差值计算',
+          href: './price-diff-calculate.html'
+        },
+        {
+          name: '随机分组',
+          href: 'random-group.html'
+        }
+      ],
+      tools: []
+    }
+  },
+
+  methods: {
+  },
+
+  watch: {
+  },
+
+  mounted: function () {
+    this.tools = this.allTools
+  }
+})
+</script>
+</html>

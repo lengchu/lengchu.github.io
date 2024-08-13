@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.6/lib/theme-chalk/index.css">
+  <title>价格差值计算</title>
+</head>
+
+<body>
+  <div style="display: flex; justify-content: center;">
+    <div id="app"
+      style="display: flex; flex-direction: column; justify-items: center; padding: 20px;">
+      <price-calculate />
+    </div>
+  </div>
+</body>
+<script src="https://unpkg.com/axios@0.21.4/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+<script src="https://unpkg.com/element-ui@2.15.6/lib/index.js"></script>
+
+<script>
+const priceCalculateTemplate =
+`
+<div>
+<div style="display: flex; justify-content: space-between;">
+  <el-input placeholder="priceOne" v-model="p1" />
+  <span style="width: 50px;"></span>
+  <el-input placeholder="priceTwo" v-model="p2" />
+</div>
+<el-descriptions direction="vertical" :column="4" border>
+  <el-descriptions-item label="上涨">{{rise}} %</el-descriptions-item>
+  <el-descriptions-item label="差值">{{diff}}</el-descriptions-item>
+  <el-descriptions-item label="下跌">{{fall}} %</el-descriptions-item>
+</el-descriptions>
+</div>
+`
+
+Vue.component('price-calculate', {
+  props: {
+  },
+  data: function () {
+    return {
+      p1: undefined,
+      p2: undefined
+    }
+  },
+  computed: {
+    n1: function () {
+      return parseFloat(this.p1)
+    },
+    n2: function () {
+      return parseFloat(this.p2)
+    },
+    diff: function () {
+      return (this.n2 - this.n1).toFixed(3)
+    },
+    rise: function () {
+      return (this.diff * 100 / this.n1).toFixed(2)
+    },
+    fall: function () {
+      return (this.diff * 100 / this.n2).toFixed(2)
+    }
+  },
+  methods: {
+  },
+  template: priceCalculateTemplate
+})
+
+</script>
+<script>
+  const vm = new Vue({
+    el: '#app',
+    data() {
+      return {
+      }
+    },
+
+    methods: {
+    },
+
+    watch: {
+    },
+
+    mounted: function () {
+    }
+  })
+</script>
+
+</html>

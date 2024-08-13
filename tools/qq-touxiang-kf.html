@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.6/lib/theme-chalk/index.css">
+  <title>QQ头像KF举牌</title>
+</head>
+
+<body>
+  <div style="display: flex; justify-content: center;">
+    <div id="app"
+      style="display: flex; flex-direction: column; justify-items: center; padding: 20px;">
+      <canvas-kf />
+    </div>
+  </div>
+</body>
+<script src="https://unpkg.com/axios@0.21.4/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+<script src="https://unpkg.com/element-ui@2.15.6/lib/index.js"></script>
+
+<script>
+const canvasKFTemplate =
+`
+<div>
+<div style="display: flex; justify-content: space-between;">
+  <el-input placeholder="QQ" v-model="qq" @input="kfV = false" />
+  <el-button style="margin-left: 20px; width: 120px;" @click="kf">KF</el-button>
+</div>
+<br>
+<canvas v-show="kfV" id="cav" width="335" height="335"></canvas>
+</div>
+`
+
+Vue.component('canvas-kf', {
+  props: {
+  },
+  data: function () {
+    return {
+      qq: undefined,
+      kfV: false,
+      drawTimes: 0
+    }
+  },
+  computed: {
+  },
+  methods: {
+    kf: function() {
+      const qq = this.qq
+      if(/\d{5,11}/.test(qq)) {
+        const canvas = document.querySelector('#cav')
+        const ctx = canvas.getContext('2d')
+        if (this.drawTimes++ !== 0) {
+          ctx.rotate(-0.1)
+        }
+        const bgImg = new Image(335, 335)
+        bgImg.src = kfTemplate
+        bgImg.onload = () => {
+          ctx.drawImage(bgImg, 0, 0, 335, 335)
+          const img = new Image()
+          img.src = `http://q1.qlogo.cn/g?b=qq&nk=${qq}&s=100&t=`
+          img.onload = () => {
+            ctx.rotate(0.1)
+            ctx.drawImage(img, 99, -19, 138, 138)
+            this.kfV = true
+          }
+        }
+      }
+    }
+  },
+  template: canvasKFTemplate
+})
+
+const kfTemplate = './img/kfTemplate.png'
+
+</script>
+
+<script>
+  const vm = new Vue({
+    el: '#app',
+    data() {
+      return {
+      }
+    },
+
+    methods: {
+    },
+
+    watch: {
+    },
+
+    mounted: function () {
+    }
+  })
+</script>
+
+</html>
