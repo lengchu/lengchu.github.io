@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>胶水比例计算</title>
+  <style>
+    .flex {
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+    }
+    .flex-direction-column {
+      flex-direction: column;
+    }
+    .flex-center {
+      display: flex;
+      justify-content: center;
+    }
+    .flex-items-center {
+      display: flex;
+      align-items: center;
+    }
+    .label-span {
+      flex: 0 0 32%;
+      font-size: 15px;
+    }
+    .label-result {
+      flex: 0 0 92%;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+<div class="flex-center" style="margin-top: 30px;">
+<div class="flex flex-direction-column">
+  <div>
+    <card style="min-width: 200px; width: 320px; max-width: 320px;">
+      <div class="flex flex-direction-column">
+        <div class="flex-items-center">
+          <span class="label-span">昨天胶</span>
+          <i-input v-model="yestodayGlue"></i-input>
+        </div>
+        <div class="flex-items-center">
+          <span class="label-span">昨天水</span>
+          <i-input v-model="yestodayWater" style="flex: 1;"></i-input>
+        </div>
+        <div class="flex-items-center">
+          <span class="label-span">昨天剩余</span>
+          <i-input v-model="yestodayLeft" style="flex: 1;"></i-input>
+        </div>
+        <div class="flex-items-center">
+          <span class="label-span">今天胶</span>
+          <i-input v-model="todayGlue" style="flex: 1;"></i-input>
+        </div>
+        <div class="flex-items-center">
+          <span class="label-span">今天水</span>
+          <i-input v-model="todayWater" style="flex: 1;"></i-input>
+        </div>
+        <i-button type="primary" @click="calculate">计算</i-button>
+        <div class="flex-items-center" v-if="yestodayLeftDetail != undefined">
+          <span class="label-result">{{ yestodayLeftDetail }}</span>
+        </div>
+        <div class="flex-items-center" v-if="result != undefined">
+          <span class="label-result">{{ result }}</span>
+        </div>
+      </div>
+    </card>
+  </div>
+</div>
+</div>
+
+</div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+<link href="https://cdn.bootcdn.net/ajax/libs/iview/3.5.4/styles/iview.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/iview/3.5.4/iview.js"></script>
+<script>
+const vm = new Vue({
+  el: '#app',
+  data: {
+    yestodayGlue: undefined,
+    yestodayWater: undefined,
+    yestodayLeft: undefined,
+    todayGlue: undefined,
+    todayWater: undefined,
+    result: undefined,
+    yestodayLeftDetail: undefined
+  },
+
+  methods: {
+    calculate: function() {
+      const yestodayRatio = this.yestodayGlue / this.yestodayWater
+      const yestodayLeft = this.yestodayLeft
+      const todayRatio = this.todayGlue / this.todayWater
+
+      const leftW = yestodayLeft / (yestodayRatio + 1)
+      const leftJ = yestodayRatio * leftW
+      this.yestodayLeftDetail = `昨天剩余胶: ${leftJ.toFixed(2)}, 昨天剩余水: ${leftW.toFixed(2)}`
+
+      if (todayRatio > yestodayRatio) {
+        this.result = `应加胶 ${(leftW * todayRatio - leftJ).toFixed(2)}`
+      } else {
+        this.result = `应加水 ${(leftJ / todayRatio - leftW).toFixed(2)}`
+      }
+    },
+  },
+
+  mounted: function() {
+  }
+})
+</script>
+</html>
