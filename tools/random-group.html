@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    更新日志:
+    2021/11/03
+    1. 网页图标暂不显示
+    2. 分组时自动过滤输入中的空行
+
+    2021/07/05
+    1. 网页图标自动取群头像
+    2. 分组数据展示表格表头可分别自定义
+  -->
+  <title>随机分组</title>
+  <!-- <link rel="icon" href="http://p.qlogo.cn/gh/258566735/258566735/0" type="image/x-icon" /> -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.1/lib/theme-chalk/index.css">
+  <style>
+    .el-row {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .margin-top-15 {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app" style="display: flex; flex-direction: row; justify-content: center;">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; display: none;" v-show="!loaded">
+    <h1>t r u e</h1>
+    <br>
+    <img width="150" src="http://q1.qlogo.cn/g?b=qq&nk=553308706&s=100&t=" alt="t r u e">
+  </div>
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;" v-show="loaded">
+    <el-row :gutter="20" type="flex" justify="center">
+      <el-col :span="6">
+        <label>文本大小 &nbsp; &nbsp;</label><el-input-number size="mini" v-model="fontSize" @change="handleChange" :min="12" :max="64" label="文本大小"></el-input-number>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20" type="flex" justify="center">
+      <el-col :span="6">
+        <label>待分组区域：</label>
+        <el-input
+          :style="textAreaStyle"
+          type="textarea"
+          :autosize="{ minRows: 5, maxRows: 12}"
+          placeholder="请输入内容"
+          v-model="input">
+        </el-input>
+      </el-col>
+      <!-- <el-col :span="2">
+        <div>
+          <label>文本大小</label>
+          <el-input-number size="mini" v-model="fontSize" @change="handleChange" :min="12" :max="64"></el-input-number>
+        </div>
+      </el-col> -->
+      <el-col :span="6">
+        <label>分组结果(txt)：</label>
+        <el-input
+          :style="textAreaStyle"
+          type="textarea"
+          :autosize="{ minRows: 5, maxRows: 12}"
+          placeholder="请输入内容"
+          v-model="output">
+        </el-input>
+      </el-col>
+    </el-row>
+    <div class="margin-top-15">
+        <label>随机把&nbsp;</label>
+        <el-input-number size="mini" v-model="playerNum" @change="redefineTableHeader" :min="1" label="文本大小"></el-input-number>
+        <label>&nbsp;人分成一组</label>
+        <el-button @click="random">随机分组</el-button>
+        <!-- <el-input v-model="playerPrefix" style="width: 150px;" placeholder="玩家" @change="redefineTableHeader"></el-input> -->
+    </div>
+
+    <el-table
+      :data="tablePlayerData"
+      class="margin-top-15"
+      stripe
+      style="width: auto; max-width: 100%;"
+      @header-click="customTableHeader1"
+    >
+      <el-table-column
+        prop="group"
+        label="分组"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        v-for="col in tableHeader"
+        :prop="col.prop"
+        :label="col.label"
+        :key="col.prop"
+        width="180">
+      </el-table-column>
+    </el-table>
+    <el-dialog
+      :title="'自定义表头前缀' + tableHeaderInEditIndex"
+      :visible.sync="editPlayerPrefixDialogVisible"
+      width="450px"
+    >
+      <el-input style="width: 300px;" v-model="customHeader" placeholder="玩家"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="customTableHeader2">确 定</el-button>
+      </span>
+    </el-dialog>
+    <hr>
+
+  </div>
+</div>
+
+</body>
+<script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui@2.15.1/lib/index.js"></script>
+<script>
+const vm = new Vue({
+  el: '#app',
+  
+  data() {
+    return {
+      loaded: false,
+      input: '',
+      output: '',
+      fontSize: 20,
+      randomArr: [],
+      playerNum: 2,
+      tablePlayerData: undefined,
+      tableHeader: [],
+      playerPrefix: '玩家',
+      editPlayerPrefixDialogVisible: false,
+      tableHeaderInEditIndex: undefined,
+      customHeader: ''
+    }
+  },
+
+  computed: {
+    textAreaStyle: function() {
+      return {
+        'min-width': '200px',
+        'font-size': `${this.fontSize}px`
+      }
+    }
+  },
+
+  methods: {
+    ready() {
+      this.loaded = true
+    },
+
+    handleChange() {},
+
+    customTableHeader1(column, event) {
+      const i = parseInt(column.property)
+      // console.log(i)
+      if (i != NaN && i > 0 && i <= this.tableHeader.length) {
+        this.tableHeaderInEditIndex = i
+        this.customHeader = this.tableHeader[this.tableHeaderInEditIndex - 1].label
+        this.editPlayerPrefixDialogVisible = true
+      } else {
+        this.tablePlayerData = []
+      }
+    },
+
+    customTableHeader2(val) {
+      if (this.tableHeaderInEditIndex) {
+        this.tableHeader[this.tableHeaderInEditIndex - 1].label = this.customHeader
+      }
+      this.editPlayerPrefixDialogVisible = false
+    },
+
+    redefineTableHeader() {
+      const tempTableData = this.tablePlayerData
+      this.tableHeader = []
+      this.tablePlayerData = []
+      for (let i = 1; i <= this.playerNum; i++) {
+        this.tableHeader.push({
+          prop: `${i}`,
+          label: `${this.playerPrefix}${i}`
+        })
+      }
+      this.tablePlayerData = tempTableData
+    },
+
+    random() {
+      this.output = ''
+      const inputArr = this.input.trim().split('\n').filter(val => val.trim() != '')
+      outputArr = []
+      let currentLength = inputArr.length
+      for (let i = inputArr.length; i > 0; i--) {
+        let j = this.randomInt(currentLength)
+        const input = inputArr[j]
+        inputArr[j] = inputArr[currentLength - 1]
+        currentLength--
+        outputArr.push(input)
+      }
+      
+      this.randomArr = outputArr
+      
+      const tablePlayerData = []
+      let group
+      let i = 0
+      while (i < outputArr.length) {
+        let player = outputArr[i]
+        if (i % this.playerNum == 0) {
+          group = {
+            group: `第${tablePlayerData.length + 1}组`
+          }
+        }
+        group[`${i % this.playerNum + 1}`] = player
+        if (++i % this.playerNum == 0 || i == outputArr.length) {
+          tablePlayerData.push(group)
+        }
+      }
+      this.tablePlayerData = tablePlayerData
+
+      outputArr.forEach((a, i) => {
+        if (i % this.playerNum == 0) {
+          this.output += `\n第${parseInt(i / this.playerNum) + 1}组: \n`
+        }
+        this.output += `${a}\n`
+      })
+    },
+
+    randomInt(max) {
+      if (max) {
+        return parseInt(Math.random() * max)
+      }
+    }
+  },
+
+  mounted() {
+    this.redefineTableHeader()
+    this.ready()
+  }
+})
+</script>
+</html>

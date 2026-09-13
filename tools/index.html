@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0b1020" />
+<meta name="color-scheme" content="dark" />
+<title>在线小工具集合</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --card:#151c2e;
+    --line:#232c48;
+    --fg:#e8eefc;
+    --muted:#8892ab;
+    --accent:#4f8cff;
+    --accent2:#22d3ee;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background-color:var(--bg);
+    background-image:radial-gradient(900px 480px at 50% -12%, #1c2645 0%, rgba(11,16,32,0) 65%);
+    background-attachment:fixed;
+    color:var(--fg);
+    min-height:100vh;
+    -webkit-text-size-adjust:100%;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:28px 18px calc(40px + env(safe-area-inset-bottom));
+  }
+
+  /* ---------- 头部 ---------- */
+  .hero{ text-align:center; margin-bottom:22px; }
+  .hero h1{
+    margin:0;
+    font-size:26px;
+    letter-spacing:.5px;
+    background:linear-gradient(90deg,#8ab6ff,#22d3ee);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    display:inline-block;
+  }
+  .hero p{
+    margin:9px 0 0;
+    font-size:13px;
+    color:var(--muted);
+    letter-spacing:.3px;
+  }
+
+  /* ---------- 搜索 ---------- */
+  .search{
+    position:relative;
+    max-width:460px;
+    margin:0 auto 22px;
+  }
+  .search .ico{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#5f6b87;
+    pointer-events:none;
+    display:flex;
+  }
+  .search input{
+    width:100%;
+    height:44px;
+    padding:0 42px 0 40px;
+    border-radius:12px;
+    border:1px solid #24304f;
+    background:#0f1526;
+    color:var(--fg);
+    font-size:15px;          /* 防止 iOS 聚焦缩放 */
+    font-family:inherit;
+    outline:none;
+    transition:border-color .18s, box-shadow .18s, background .18s;
+  }
+  .search input::placeholder{ color:#4f5a76; }
+  .search input:focus{
+    border-color:var(--accent);
+    background:#0d1324;
+    box-shadow:0 0 0 3px rgba(79,140,255,.16);
+  }
+  .search .clr{
+    position:absolute;
+    right:6px;
+    top:50%;
+    transform:translateY(-50%);
+    width:30px;
+    height:30px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    border:0;
+    border-radius:8px;
+    background:transparent;
+    color:#6f7b96;
+    font-size:15px;
+    line-height:1;
+    cursor:pointer;
+    font-family:inherit;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .search .clr:active{ background:#1a2340; }
+
+  /* ---------- 网格 ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+    gap:14px;
+  }
+
+  .card{
+    position:relative;
+    display:flex;
+    gap:13px;
+    padding:16px;
+    border-radius:14px;
+    background:linear-gradient(180deg,#161d33,#121829);
+    border:1px solid var(--line);
+    text-decoration:none;
+    color:inherit;
+    overflow:hidden;
+    animation:cardIn .34s ease backwards;
+    transition:transform .18s ease, border-color .18s ease,
+               background .18s ease, box-shadow .18s ease;
+  }
+  .card::before{
+    content:'';
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:3px;
+    background:linear-gradient(180deg,var(--accent),var(--accent2));
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .card:hover{
+    transform:translateY(-2px);
+    border-color:#3a4a78;
+    background:linear-gradient(180deg,#1a2340,#141b2d);
+    box-shadow:0 10px 26px rgba(0,0,0,.32);
+  }
+  .card:hover::before{ opacity:1; }
+  .card:active{ transform:translateY(0) scale(.99); }
+
+  @keyframes cardIn{
+    from{ opacity:0; transform:translateY(9px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .card-icon{
+    flex-shrink:0;
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    font-size:20px;
+    font-weight:700;
+    color:#9dc0ff;
+    background:linear-gradient(135deg, rgba(79,140,255,.22), rgba(34,211,238,.15));
+    border:1px solid rgba(79,140,255,.28);
+    user-select:none;
+    -webkit-user-select:none;
+  }
+
+  .card-body{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+  }
+  .card-name{
+    font-size:15px;
+    font-weight:600;
+    line-height:1.35;
+    word-break:break-word;
+  }
+  .card-desc{
+    margin-top:5px;
+    font-size:12.5px;
+    line-height:1.5;
+    color:var(--muted);
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .card-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-top:auto;
+    padding-top:8px;
+  }
+  .tag{
+    font-size:10.5px;
+    line-height:1.6;
+    padding:1px 7px;
+    border-radius:6px;
+    background:rgba(79,140,255,.12);
+    border:1px solid rgba(79,140,255,.2);
+    color:#7fa6e6;
+    white-space:nowrap;
+  }
+
+  .card-arrow{
+    align-self:center;
+    flex-shrink:0;
+    font-size:18px;
+    line-height:1;
+    color:#3d4a6b;
+    transition:color .18s ease, transform .18s ease;
+    user-select:none;
+  }
+  .card:hover .card-arrow{
+    color:#6d9eff;
+    transform:translateX(3px);
+  }
+
+  /* ---------- 空状态 ---------- */
+  .empty{
+    display:none;
+    text-align:center;
+    padding:56px 20px;
+    color:#5f6b87;
+    font-size:13.5px;
+    line-height:1.7;
+  }
+  .empty .big{
+    display:block;
+    font-size:34px;
+    margin-bottom:12px;
+    opacity:.45;
+  }
+
+  /* ---------- 页脚 ---------- */
+  .foot{
+    margin-top:38px;
+    text-align:center;
+    font-size:11.5px;
+    line-height:1.8;
+    color:#4c5670;
+  }
+
+  /* ---------- 移动端 ---------- */
+  @media (max-width:640px){
+    .wrap{ padding:22px 14px calc(36px + env(safe-area-inset-bottom)); }
+    .hero h1{ font-size:22px; }
+    .hero p{ font-size:12px; }
+    .search{ margin-bottom:18px; }
+    .search input{ height:42px; font-size:16px; }
+
+    .grid{
+      grid-template-columns:repeat(2, 1fr);
+      gap:10px;
+    }
+    .card{
+      flex-direction:column;
+      gap:9px;
+      padding:14px 12px;
+      min-height:118px;
+      border-radius:13px;
+    }
+    .card::before{ width:100%; height:2px; bottom:auto; }
+    .card-icon{
+      width:38px;
+      height:38px;
+      font-size:17px;
+      border-radius:10px;
+    }
+    .card-name{ font-size:13.5px; }
+    .card-desc{ font-size:11.5px; margin-top:4px; }
+    .card-tags{ padding-top:7px; }
+    .tag{ font-size:10px; }
+    .card-arrow{ display:none; }
+  }
+
+  @media (max-width:340px){
+    .grid{ grid-template-columns:1fr; }
+    .card{ flex-direction:row; align-items:center; min-height:0; }
+    .card-arrow{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================================
+     ⚙️  ⚙️  ⚙️   工  具  配  置  区   ⚙️  ⚙️  ⚙️
+     ----------------------------------------------------------------------------
+     在这里添加 / 修改你的小工具，页面会自动渲染，无需改动其他代码。
+
+     配置字段说明：
+       name    必填   工具名称
+       href    必填   链接地址（相对路径或完整网址）
+       icon    可选   图标 emoji，不填则自动取名称首字
+       desc    可选   一句话描述，最多显示两行
+       tags    可选   标签数组，如 ['图片', '生成器']
+       newTab  可选   是否新窗口打开，默认 false（当前页打开）
+
+     示例：
+       { name: '简约文字头像生成', href: './touxiang.html', icon: '🎨',
+         desc: '输入文字快速生成简约头像', tags: ['图片'] }
+     ============================================================================ -->
+<script id="tool-config">
+  window.TOOLS = [
+    {
+      name: '简约文字头像生成',
+      href: './touxiang.html'
+    },
+    {
+      name: 'QQ头像KF举牌',
+      href: './qq-touxiang-kf.html'
+    },
+    {
+      name: '价格差值计算',
+      href: './price-diff-calculate.html'
+    },
+    {
+      name: '随机分组',
+      href: 'random-group.html'
+    },
+    {
+      name: '胶水比例计算',
+      href: 'glue-water-ratio-calculate.html'
+    },
+    {
+      name: '文本哈希计算',
+      href: 'text-hash.html'
+    }
+    // {
+    //   name: '简约文字头像生成',
+    //   href: './touxiang.html',
+    //   icon: '🎨',
+    //   desc: '输入文字，快速生成简约风格头像',
+    //   tags: ['图片']
+    // },
+    // {
+    //   name: 'QQ头像KF举牌',
+    //   href: './qq-touxiang-kf.html',
+    //   icon: '🪧',
+    //   desc: '一键制作 QQ 头像举牌图片',
+    //   tags: ['图片']
+    // }
+  ];
+</script>
+<!-- ============================================================================
+     ⚙️  配置区结束（下面不用改）
+     ============================================================================ -->
+
+
+<div class="wrap">
+  <header class="hero">
+    <h1>在线小工具集合</h1>
+    <p id="subtitle">共 0 个工具</p>
+  </header>
+
+  <div class="search">
+    <span class="ico">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="16.6" y1="16.6" x2="21" y2="21"></line>
+      </svg>
+    </span>
+    <input id="search" type="search" placeholder="搜索工具…"
+           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+    <button class="clr" id="clr" type="button" aria-label="清空搜索">✕</button>
+  </div>
+
+  <main class="grid" id="grid"></main>
+
+  <div class="empty" id="empty">
+    <span class="big">🔍</span>
+    没有找到匹配的工具<br />换个关键词试试吧
+  </div>
+
+  <div class="foot">全部为纯前端工具，数据不会上传服务器</div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- 读取配置 ---------- */
+  var DEFAULT_TOOLS = [
+    { name: '简约文字头像生成', href: './touxiang.html', icon: '🎨', desc: '输入文字快速生成简约头像', tags: ['图片'] },
+    { name: 'QQ头像KF举牌',   href: './qq-touxiang-kf.html', icon: '🪧', desc: '制作 QQ 头像举牌图片', tags: ['图片'] }
+  ];
+
+  var raw = (window.TOOLS && window.TOOLS.length) ? window.TOOLS : DEFAULT_TOOLS;
+
+  // 过滤掉缺少必要字段的配置项，并对字段做兜底
+  var TOOLS = raw.filter(function (t) {
+    return t && t.name && t.href;
+  }).map(function (t) {
+    return {
+      name:   String(t.name),
+      href:   String(t.href),
+      icon:   t.icon ? String(t.icon) : '',
+      desc:   t.desc ? String(t.desc) : '',
+      tags:   Array.isArray(t.tags) ? t.tags.filter(Boolean).map(String) : [],
+      newTab: !!t.newTab
+    };
+  });
+
+  /* ---------- DOM ---------- */
+  var gridEl    = document.getElementById('grid');
+  var emptyEl   = document.getElementById('empty');
+  var subtitle  = document.getElementById('subtitle');
+  var searchEl  = document.getElementById('search');
+  var clrEl     = document.getElementById('clr');
+
+  /* ---------- 渲染 ---------- */
+  function firstChar(name) {
+    var s = String(name).trim();
+    return s ? s.charAt(0) : '?';
+  }
+
+  function buildCard(tool, index) {
+    var a = document.createElement('a');
+    a.className = 'card';
+    a.href = tool.href;
+    if (tool.newTab) {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+    }
+    a.style.animationDelay = Math.min(index * 25, 320) + 'ms';
+
+    // 图标
+    var icon = document.createElement('div');
+    icon.className = 'card-icon';
+    icon.textContent = tool.icon || firstChar(tool.name);
+
+    // 内容
+    var body = document.createElement('div');
+    body.className = 'card-body';
+
+    var name = document.createElement('div');
+    name.className = 'card-name';
+    name.textContent = tool.name;
+    body.appendChild(name);
+
+    if (tool.desc) {
+      var desc = document.createElement('div');
+      desc.className = 'card-desc';
+      desc.textContent = tool.desc;
+      body.appendChild(desc);
+    }
+
+    if (tool.tags.length) {
+      var tags = document.createElement('div');
+      tags.className = 'card-tags';
+      tool.tags.forEach(function (t) {
+        var span = document.createElement('span');
+        span.className = 'tag';
+        span.textContent = t;
+        tags.appendChild(span);
+      });
+      body.appendChild(tags);
+    }
+
+    // 箭头
+    var arrow = document.createElement('span');
+    arrow.className = 'card-arrow';
+    arrow.setAttribute('aria-hidden', 'true');
+    arrow.textContent = '›';
+
+    a.appendChild(icon);
+    a.appendChild(body);
+    a.appendChild(arrow);
+    return a;
+  }
+
+  function render(keyword) {
+    var kw = String(keyword || '').trim().toLowerCase();
+
+    var list = TOOLS.filter(function (t) {
+      if (!kw) return true;
+      var hay = (t.name + ' ' + t.desc + ' ' + t.tags.join(' ')).toLowerCase();
+      return hay.indexOf(kw) !== -1;
+    });
+
+    gridEl.innerHTML = '';
+    if (list.length) {
+      var frag = document.createDocumentFragment();
+      list.forEach(function (t, i) { frag.appendChild(buildCard(t, i)); });
+      gridEl.appendChild(frag);
+    }
+
+    emptyEl.style.display = list.length ? 'none' : 'block';
+
+    if (kw) {
+      subtitle.textContent = '找到 ' + list.length + ' 个工具（共 ' + TOOLS.length + ' 个）';
+    } else {
+      subtitle.textContent = '共 ' + TOOLS.length + ' 个工具';
+    }
+
+    clrEl.style.display = kw ? 'flex' : 'none';
+  }
+
+  /* ---------- 事件 ---------- */
+  var ticking = false;
+  searchEl.addEventListener('input', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      render(searchEl.value);
+      ticking = false;
+    });
+  });
+
+  clrEl.addEventListener('click', function () {
+    searchEl.value = '';
+    render('');
+    searchEl.focus();
+  });
+
+  // 桌面端快捷键：/ 聚焦搜索，Esc 清空
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+    var typing = tag === 'input' || tag === 'textarea';
+
+    if (e.key === '/' && !typing) {
+      e.preventDefault();
+      searchEl.focus();
+    } else if (e.key === 'Escape' && typing) {
+      searchEl.value = '';
+      render('');
+      searchEl.blur();
+    }
+  });
+
+  /* ---------- 初始化 ---------- */
+  render('');
+})();
+</script>
+</body>
+</html>
