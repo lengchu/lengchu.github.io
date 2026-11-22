@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0b1020" />
+<meta name="color-scheme" content="dark" />
+<title>哈希计算器 · SHA-1 / SHA-256 / SHA-512</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --card:#141a2c;
+    --field:#0d1324;
+    --line:#232c48;
+    --fg:#e8eefc;
+    --muted:#8892ab;
+    --accent:#4f8cff;
+    --cyan:#22d3ee;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background:radial-gradient(900px 500px at 50% -15%, #1b2440 0%, #0b1020 62%) fixed, var(--bg);
+    color:var(--fg);
+    min-height:100vh;
+    -webkit-text-size-adjust:100%;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .app{
+    max-width:720px;
+    margin:0 auto;
+    padding:20px 16px calc(32px + env(safe-area-inset-bottom));
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  /* ---------- 头部 ---------- */
+  .head h1{
+    margin:0;
+    font-size:20px;
+    letter-spacing:.5px;
+    background:linear-gradient(90deg,#8ab6ff,#22d3ee);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    display:inline-block;
+  }
+  .head p{
+    margin:6px 0 0;
+    font-size:12.5px;
+    color:var(--muted);
+    letter-spacing:.3px;
+  }
+
+  /* ---------- 卡片 ---------- */
+  .card{
+    background:linear-gradient(180deg,#161d33,#121829);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px;
+    box-shadow:0 8px 24px rgba(0,0,0,.22);
+  }
+  .card-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .stat{
+    font-variant-numeric:tabular-nums;
+    font-size:12px;
+    color:#6f7b96;
+  }
+
+  textarea{
+    width:100%;
+    min-height:108px;
+    resize:vertical;
+    background:var(--field);
+    border:1px solid #24304f;
+    border-radius:12px;
+    color:var(--fg);
+    font-size:16px;          /* 防止 iOS 自动放大 */
+    line-height:1.55;
+    padding:12px;
+    font-family:inherit;
+    outline:none;
+    transition:border-color .18s, box-shadow .18s;
+  }
+  textarea::placeholder{ color:#4f5a76; }
+  textarea:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(79,140,255,.16);
+  }
+  #cmpInput{ min-height:130px; font-size:14px; }
+
+  .actions{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+  }
+  .btn{
+    flex:1;
+    appearance:none;
+    border-radius:10px;
+    padding:9px 12px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    touch-action:manipulation;
+    transition:.16s;
+  }
+  .btn.ghost{
+    background:#1a2340;
+    border:1px solid #2b3757;
+    color:#a8bce0;
+  }
+  .btn.ghost:active{
+    background:#22305a;
+    transform:scale(.985);
+  }
+
+  /* ---------- 算法切换 ---------- */
+  .tabs{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px;
+    background:#121829;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+  }
+  .tab{
+    appearance:none;
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.2px;
+    padding:10px 2px;
+    border-radius:10px;
+    cursor:pointer;
+    touch-action:manipulation;
+    transition:background .18s, color .18s, box-shadow .18s;
+    font-family:inherit;
+  }
+  .tab.active{
+    background:linear-gradient(180deg,#3b7bfa,#2a5fd6);
+    color:#fff;
+    box-shadow:0 4px 14px rgba(59,123,250,.38);
+  }
+
+  /* ---------- 输出 ---------- */
+  .out-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:9px;
+  }
+  .badge{
+    font-size:11.5px;
+    font-weight:700;
+    padding:3px 8px;
+    border-radius:999px;
+    background:rgba(79,140,255,.16);
+    color:#8ab6ff;
+    border:1px solid rgba(79,140,255,.32);
+    white-space:nowrap;
+  }
+  .badge.alt{
+    background:rgba(34,211,238,.13);
+    color:#67e8f9;
+    border-color:rgba(34,211,238,.3);
+  }
+  .bits{
+    font-size:11.5px;
+    color:#6f7b96;
+    flex:1;
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .copy{
+    appearance:none;
+    border:1px solid #2f3d63;
+    background:#1a2340;
+    color:#9fb6e0;
+    font-size:12px;
+    font-weight:600;
+    padding:5px 11px;
+    border-radius:8px;
+    cursor:pointer;
+    touch-action:manipulation;
+    transition:.16s;
+    flex-shrink:0;
+    font-family:inherit;
+  }
+  .copy:active{ transform:scale(.94); }
+  .copy.ok{
+    color:var(--cyan);
+    border-color:rgba(34,211,238,.6);
+    background:rgba(34,211,238,.1);
+  }
+
+  .hash{
+    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size:13px;
+    line-height:1.7;
+    word-break:break-all;
+    letter-spacing:.2px;
+    color:#c9e2ff;
+    background:var(--field);
+    border:1px solid #1e2740;
+    border-radius:10px;
+    padding:10px 12px;
+    user-select:all;
+    -webkit-user-select:all;
+  }
+
+  .hint{
+    margin:10px 0 0;
+    font-size:11.5px;
+    line-height:1.5;
+    color:#5f6b87;
+  }
+
+  /* ---------- 对比区 ---------- */
+  .cmp-empty{
+    margin:12px 0 0;
+    font-size:12px;
+    color:#5f6b87;
+    line-height:1.6;
+  }
+  .cmp-list{ display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+  .cmp-row{
+    border:1px solid #1e2740;
+    border-radius:12px;
+    padding:10px 12px;
+    background:var(--field);
+  }
+  .cmp-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:6px;
+    gap:8px;
+  }
+  .algo-chip{
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.3px;
+    padding:3px 10px;
+    border-radius:8px;
+    background:rgba(79,140,255,.14);
+    border:1px solid rgba(79,140,255,.3);
+    color:#8ab6ff;
+    white-space:nowrap;
+  }
+  .verdict{
+    font-size:11.5px;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .verdict.ok{ background:rgba(34,197,94,.14); color:#4ade80; border:1px solid rgba(34,197,94,.35); }
+  .verdict.bad{ background:rgba(248,113,113,.14); color:#f87171; border:1px solid rgba(248,113,113,.35); }
+  .verdict.warn{ background:rgba(251,191,36,.13); color:#fbbf24; border:1px solid rgba(251,191,36,.32); }
+
+  .cmp-line{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    color:#98a4c0;
+    padding:3px 0;
+  }
+  .cmp-line .cmp-label{ flex:1; min-width:0; }
+  .mark{ font-weight:800; font-size:13px; }
+  .mark.ok{ color:#4ade80; }
+  .mark.bad{ color:#f87171; }
+  .mark.na{ color:#5f6b87; }
+
+  .cmp-diff{
+    margin:2px 0 6px;
+    padding:8px 10px;
+    border-radius:9px;
+    background:#0a0f1e;
+    border:1px dashed #26314f;
+    font-size:11.5px;
+    line-height:1.7;
+    color:#8892ab;
+  }
+  .cmp-diff b{ font-weight:700; }
+  .cmp-diff .l-local{ color:#67e8f9; }
+  .cmp-diff .l-ext{ color:#fbbf24; }
+  .cmp-diff code{
+    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color:#c9e2ff;
+    word-break:break-all;
+    font-size:11px;
+    letter-spacing:.2px;
+  }
+
+  .foot{
+    text-align:center;
+    font-size:11.5px;
+    color:#4c5670;
+    padding-top:4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="head">
+    <h1>哈希计算器</h1>
+    <p>SHA-1 · SHA-256 · SHA-512　｜　哈希值 &amp; 哈希值的哈希值</p>
+  </header>
+
+  <div class="card">
+    <div class="card-head">
+      <span>文本输入</span>
+      <span class="stat" id="stat">0 字符 · 0 字节</span>
+    </div>
+    <textarea id="input" placeholder="在此输入或粘贴文本…" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+    <div class="actions">
+      <button class="btn ghost" id="btnSample">填入示例</button>
+      <button class="btn ghost" id="btnClear">清空</button>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-alg="SHA-1">SHA-1</button>
+    <button class="tab" data-alg="SHA-256">SHA-256</button>
+    <button class="tab" data-alg="SHA-512">SHA-512</button>
+  </div>
+
+  <div class="card">
+    <div class="out-head">
+      <span class="badge" id="badge1">SHA-1</span>
+      <span class="bits" id="bits1">160 位 · 40 个十六进制字符</span>
+      <button class="copy" data-copy="v1">复制</button>
+    </div>
+    <div class="hash" id="v1">—</div>
+  </div>
+
+  <div class="card">
+    <div class="out-head">
+      <span class="badge alt">哈希的哈希</span>
+      <span class="bits" id="bits2">160 位</span>
+      <button class="copy" data-copy="v2">复制</button>
+    </div>
+    <div class="hash" id="v2">—</div>
+    <p class="hint">将上方哈希值（十六进制小写字符串）作为新输入，再用同一算法计算一次。</p>
+  </div>
+
+  <!-- ============ 外部结果对比 ============ -->
+  <div class="card">
+    <div class="card-head">
+      <span>外部结果对比</span>
+      <span class="stat" id="cmpStat">—</span>
+    </div>
+    <textarea id="cmpInput" spellcheck="false" autocapitalize="off" autocomplete="off"
+      placeholder="粘贴其他工具的结果，格式如：
+SHA-1:
+&lt;哈希值&gt;
+&lt;哈希值的哈希值&gt;
+SHA-256:
+&lt;哈希值&gt;
+&lt;哈希值的哈希值&gt;
+
+会自动识别算法并与上方文本的计算结果对比，无法识别的算法直接忽略。"></textarea>
+    <div class="actions">
+      <button class="btn ghost" id="btnCmpClear">清空对比区</button>
+    </div>
+    <div id="cmpResult"><p class="cmp-empty">粘贴外部结果后会自动对比。</p></div>
+  </div>
+
+  <div class="foot">全部计算在本地完成，文本不会上传</div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/js-sha1/0.6.0/sha1.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/js-sha512/0.8.0/sha512.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+   *  工具函数
+   * ========================================================= */
+  const enc = new TextEncoder();
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* 归一化哈希值用于比较：去掉所有空白 + 转小写 */
+  function canonHash(s) {
+    return (s == null ? '' : String(s)).replace(/\s+/g, '').toLowerCase();
+  }
+
+  /* =========================================================
+   *  哈希计算（js-sha1 / js-sha256 / js-sha512）
+   * ========================================================= */
+  const doHash = (algorithm, text) => {
+    switch (algorithm) {
+      case 'SHA-1':
+        return sha1(text)
+      case 'SHA-256':
+        return sha256(text)
+      case 'SHA-512':
+        return sha512(text)
+      default:
+        throw new Error('不支持的算法')
+    }
+  }
+
+  /* =========================================================
+   *  算法注册表
+   * ========================================================= */
+  const ALGOS = {
+    'SHA-1':   { fn: text => doHash('SHA-1', text),   bits: 160, hexLen: 40  },
+    'SHA-256': { fn: text => doHash('SHA-256', text), bits: 256, hexLen: 64  },
+    'SHA-512': { fn: text => doHash('SHA-512', text), bits: 512, hexLen: 128 }
+  };
+
+  /* =========================================================
+   *  外部文本解析
+   * ========================================================= */
+  const ALIAS = {
+    'SHA1':   'SHA-1',
+    'SHA256': 'SHA-256',
+    'SHA512': 'SHA-512'
+  };
+
+  /* 把一行文本识别成算法名，识别不出返回 null */
+  function normalizeAlgName(raw) {
+    if (!raw) return null;
+    const s = String(raw)
+      .trim()
+      .replace(/[（(].*?[）)]/g, '')   // 去掉括号注释，如 "SHA-1 (160位)"
+      .replace(/[\s\-_:：=]+/g, '')   // 去掉空格、连字符、冒号、等号
+      .toUpperCase();
+
+    const m = s.match(/^(SHA1|SHA256|SHA512)/);
+    if (!m) return null;
+
+    const rest = s.slice(m[1].length);
+    // 后面只能是空的，或者是 "HASH"/"值"/"摘要" 之类的后缀
+    if (rest === '' || /^(HASH|值|摘要|校验|VALUE|HEX|SUM|SUMS)$/.test(rest)) {
+      return ALIAS[m[1]];
+    }
+    return null;
+  }
+
+  /* 数据行清理：去掉 "哈希值：" 之类的前缀 */
+  function cleanDataLine(s) {
+    const idx = Math.max(s.lastIndexOf(':'), s.lastIndexOf('：'));
+    if (idx >= 0 && idx < s.length - 1) {
+      const rest = s.slice(idx + 1).trim();
+      if (rest) return rest;
+    }
+    return s;
+  }
+
+  /**
+   * 解析外部粘贴文本
+   * 返回 Map<算法名, { h1: 哈希值|null, h2: 哈希的哈希|null }>
+   */
+  function parseCompareText(text) {
+    // 先把 "SHA-1:" 这种内联写法拆成单独一行
+    const normalized = String(text).replace(
+      /(SHA[\s\-_]?1|SHA[\s\-_]?256|SHA[\s\-_]?512)\s*[:：=]\s*/gi,
+      '\n$1\n'
+    );
+
+    const lines = normalized
+      .split(/\r?\n/)
+      .map(l => l.trim())
+      .filter(l => l !== '');
+
+    const result = new Map();
+    let curAlg = null;
+    let buf = [];
+
+    function flush() {
+      if (curAlg && buf.length > 0 && !result.has(curAlg)) {
+        result.set(curAlg, {
+          h1: buf[0] != null ? buf[0] : null,
+          h2: buf[1] != null ? buf[1] : null
+        });
+      }
+      buf = [];
+    }
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const alg = normalizeAlgName(line);
+
+      if (alg) {
+        flush();
+        curAlg = alg;
+      } else if (curAlg) {
+        if (buf.length < 2) buf.push(cleanDataLine(line));
+      }
+      // 未识别算法名之前的数据行直接忽略
+    }
+    flush();
+
+    return result;
+  }
+
+  /* =========================================================
+   *  DOM
+   * ========================================================= */
+  const inputEl    = document.getElementById('input');
+  const statEl     = document.getElementById('stat');
+  const tabsEl     = document.getElementById('tabs');
+  const badge1     = document.getElementById('badge1');
+  const bits1      = document.getElementById('bits1');
+  const bits2      = document.getElementById('bits2');
+  const v1El       = document.getElementById('v1');
+  const v2El       = document.getElementById('v2');
+
+  const cmpInput   = document.getElementById('cmpInput');
+  const cmpResultEl= document.getElementById('cmpResult');
+  const cmpStatEl  = document.getElementById('cmpStat');
+
+  let currentAlg = 'SHA-1';
+  let timer = null;
+
+  /* ---------- 主计算 ---------- */
+  function compute() {
+    const text  = inputEl.value;
+    const bytes = enc.encode(text);
+
+    statEl.textContent = text.length + ' 字符 · ' + bytes.length + ' 字节';
+
+    const algo = ALGOS[currentAlg];
+    let h1 = '—', h2 = '—';
+
+    try {
+      h1 = algo.fn(text);
+      h2 = algo.fn(h1);
+    } catch (err) {
+      h1 = '计算失败：' + (err && err.message ? err.message : err);
+    }
+
+    v1El.textContent = h1;
+    v2El.textContent = h2;
+
+    badge1.textContent = currentAlg;
+    bits1.textContent  = algo.bits + ' 位 · ' + algo.hexLen + ' 个十六进制字符';
+    bits2.textContent  = algo.bits + ' 位 · ' + algo.hexLen + ' 个十六进制字符';
+  }
+
+  /* ---------- 对比渲染 ---------- */
+  function lineHtml(label, has, match, extVal, locVal) {
+    let mark, cls;
+    if (!has)       { mark = '—'; cls = 'na';  }
+    else if (match) { mark = '✓'; cls = 'ok';  }
+    else            { mark = '✗'; cls = 'bad'; }
+
+    let h = '<div class="cmp-line">' +
+              '<span class="cmp-label">' + label + '</span>' +
+              '<span class="mark ' + cls + '">' + mark + '</span>' +
+            '</div>';
+
+    if (has && !match) {
+      h += '<div class="cmp-diff">' +
+             '<div><b class="l-local">本地</b> <code>' + escapeHtml(locVal) + '</code></div>' +
+             '<div><b class="l-ext">外部</b> <code>' + escapeHtml(extVal) + '</code></div>' +
+           '</div>';
+    }
+    return h;
+  }
+
+  function renderCompare() {
+    const raw = cmpInput.value.trim();
+
+    if (!raw) {
+      cmpResultEl.innerHTML = '<p class="cmp-empty">粘贴外部结果后会自动对比。</p>';
+      cmpStatEl.textContent = '—';
+      return;
+    }
+
+    const parsed = parseCompareText(raw);
+
+    if (parsed.size === 0) {
+      cmpResultEl.innerHTML =
+        '<p class="cmp-empty">未识别到 SHA-1 / SHA-256 / SHA-512 的结果（其他算法已忽略）。</p>';
+      cmpStatEl.textContent = '未识别';
+      return;
+    }
+
+    // 用当前输入文本算出三种算法的本地结果
+    const text = inputEl.value;
+    const localMap = {};
+    Object.keys(ALGOS).forEach(function (key) {
+      const h1 = ALGOS[key].fn(text);
+      const h2 = ALGOS[key].fn(h1);
+      localMap[key] = { h1: h1, h2: h2 };
+    });
+
+    const frag = document.createDocumentFragment();
+    let okCount = 0, badCount = 0, incCount = 0, total = 0;
+
+    parsed.forEach(function (ext, alg) {
+      total++;
+      const loc  = localMap[alg];
+      const has1 = !!ext.h1;
+      const has2 = !!ext.h2;
+      const m1   = has1 && canonHash(ext.h1) === canonHash(loc.h1);
+      const m2   = has2 && canonHash(ext.h2) === canonHash(loc.h2);
+
+      let verdictText, verdictCls;
+      if (has1 && has2 && m1 && m2) {
+        verdictText = '全部匹配'; verdictCls = 'ok'; okCount++;
+      } else if ((has1 && !m1) || (has2 && !m2)) {
+        verdictText = '存在差异'; verdictCls = 'bad'; badCount++;
+      } else {
+        verdictText = '结果不完整'; verdictCls = 'warn'; incCount++;
+      }
+
+      const row = document.createElement('div');
+      row.className = 'cmp-row';
+      row.innerHTML =
+        '<div class="cmp-top">' +
+          '<span class="algo-chip">' + alg + '</span>' +
+          '<span class="verdict ' + verdictCls + '">' + verdictText + '</span>' +
+        '</div>' +
+        lineHtml('哈希值', has1, m1, has1 ? ext.h1 : '', loc.h1) +
+        lineHtml('哈希的哈希', has2, m2, has2 ? ext.h2 : '', loc.h2);
+
+      frag.appendChild(row);
+    });
+
+    cmpResultEl.innerHTML = '';
+    cmpResultEl.appendChild(frag);
+
+    const parts = [];
+    if (okCount)  parts.push(okCount + ' 个匹配');
+    if (badCount) parts.push(badCount + ' 个不匹配');
+    if (incCount) parts.push(incCount + ' 个不完整');
+    cmpStatEl.textContent = '对比 ' + total + ' 个 · ' + parts.join(' · ');
+  }
+
+  /* ---------- 调度 ---------- */
+  function scheduleCompute() {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      compute();
+      renderCompare();
+    }, 80);
+  }
+
+  /* ---------- 算法切换 ---------- */
+  tabsEl.addEventListener('click', function (e) {
+    const btn = e.target.closest('.tab');
+    if (!btn || btn.classList.contains('active')) return;
+
+    Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function (t) {
+      t.classList.remove('active');
+    });
+    btn.classList.add('active');
+
+    currentAlg = btn.dataset.alg;
+    if (navigator.vibrate) navigator.vibrate(8);
+    compute();
+  });
+
+  /* ---------- 输入 ---------- */
+  inputEl.addEventListener('input', scheduleCompute);
+  cmpInput.addEventListener('input', scheduleCompute);
+
+  document.getElementById('btnClear').addEventListener('click', function () {
+    inputEl.value = '';
+    inputEl.focus();
+    compute();
+    renderCompare();
+  });
+
+  document.getElementById('btnSample').addEventListener('click', function () {
+    inputEl.value = 'Hello, 哈希世界！👋';
+    compute();
+    renderCompare();
+  });
+
+  document.getElementById('btnCmpClear').addEventListener('click', function () {
+    cmpInput.value = '';
+    renderCompare();
+  });
+
+  /* ---------- 复制 ---------- */
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function flash(btn, ok) {
+    const original = btn.dataset.original || btn.textContent;
+    btn.dataset.original = original;
+    btn.textContent = ok ? '已复制' : '复制失败';
+    btn.classList.toggle('ok', ok);
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () {
+      btn.textContent = original;
+      btn.classList.remove('ok');
+    }, 1300);
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.copy'), function (btn) {
+    btn.addEventListener('click', function () {
+      const target = document.getElementById(btn.dataset.copy);
+      const text = target ? target.textContent : '';
+      if (!text || text === '—') return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          flash(btn, true);
+          if (navigator.vibrate) navigator.vibrate(10);
+        }).catch(function () {
+          flash(btn, fallbackCopy(text));
+        });
+      } else {
+        flash(btn, fallbackCopy(text));
+      }
+    });
+  });
+
+  /* ---------- 初始化 ---------- */
+  compute();
+  renderCompare();
+})();
+</script>
+</body>
+</html>
